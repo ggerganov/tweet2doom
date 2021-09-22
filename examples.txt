@@ -1,0 +1,84 @@
+- Escape to bring menu
+- Enter 3 times to start game
+- Wait 50 frames for screen wipe
+- Walk 50 frames forward
+- Wait for 35 frames
+
+/play x,10-,e,10-,e,10-,e,50-,50-u,35-,
+
+
+
+- Switch graphics detail
+
+/play x,15-,d,15-,e,35-,d,10-,d,70-,e,70-,x,70-,
+
+
+
+- Strafe left and shoot
+
+/play 50-<f,35-,
+
+
+
+- Quick rotate 360 while shooting
+
+/play 55-Lf,55-Rf,35-,
+
+
+
+- Toggle the map
+
+/play 35-,t,35-,t,35-,
+
+
+
+- Turn left
+- Run forward
+- Wait for 30 frames
+
+/play 29-l,80-U,35-,
+
+
+
+- Turn back
+- Run forward
+
+/play 54-r,70-U,35-,
+
+
+
+        branch 1:
+
+    - Turn left
+    - Shoot the barrel
+
+    /play 15-l,10-U,99-f,
+
+
+
+        branch 2:
+
+    - Turn left
+    - Switch to punches
+    - Punch the barrel
+
+    /play 15-l,24-U,1,1,1,1,1,20-f,5-fu,99-f,99-f,
+
+
+
+        branch 3:
+
+    - Straferun SR40
+
+    /play 25-Ual,25-Uar,35-,
+
+
+
+        branch 4:
+
+    - Straferun SR50
+
+    /play 25-Ual<,25-Uar>,35-,
+
+
+

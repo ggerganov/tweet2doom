@@ -1,0 +1,9 @@
+nohup.out
+.env
+.env-info
+secrets.txt
+node_modules
+parse-tweet
+*.mp4
+doomreplay
+*package-lock.json
