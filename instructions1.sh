@@ -30,7 +30,7 @@ CG="\x1b[38;2;000;255;124m"
 CY="\x1b[38;2;255;238;110m"
 
 echo -e "
- ${C0}T${C1}w${C2}e${C3}e${C4}t${C5}2${C6}D${C7}o${C8}o${C9}m ${CG}                                                                 1/4 
+ ${C0}T${C1}w${C2}e${C3}e${C4}t${C5}2${C6}D${C7}o${C8}o${C9}m ${CG}                                                                 2/4 
  
  To make the ${CG}@tweet2doom ${CC}bot play a certain sequence of keys, reply to them
  with a tweet containing the text ${CG}/play [input]${CC}. The ${CG}[input]${CC} text can be any
