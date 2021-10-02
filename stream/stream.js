@@ -11,7 +11,7 @@ const streamURL = 'https://api.twitter.com/2/tweets/search/stream';
 const dirTmp = './tmp';
 const dirRequests = './requests';
 const idBot = 'tweet2doom';
-const rootConversationId = '';
+const rootConversationId = '1444355917160534024';
 
 dotenv.config()
 const token = process.env.BEARER_TOKEN;
