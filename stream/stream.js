@@ -21,11 +21,10 @@ if (!fs.existsSync(dirRequests)){
     fs.mkdirSync(dirRequests);
 }
 
-// Edit rules as desired below
 const rules = [
     {
         'value': '("/play" OR "/replay") to:' + idBot + ' -from:' + idBot + ' -is:quote -is:retweet conversation_id:' + rootConversationId,
-        'tag': 'tpd testing'
+        'tag': 'tweet2doom'
     },
 ];
 
@@ -233,6 +232,7 @@ function streamConnect(retryAttempt) {
         // Gets the complete list of rules currently applied to the stream
         currentRules = await getAllRules();
 
+        // change this to "true" to recreate the filter rules
         if (false) {
             console.log('Installing new filters ...');
             // Delete all rules. Comment the line below if you want to keep your existing rules.
