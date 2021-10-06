@@ -44,8 +44,8 @@ while true ; do
         frames_cur=$(cat $dir_pending/$id/frames_cur)
         command_play=$(cat $dir_pending/$id/command_play)
         node $dir_reply/reply.js "$id" "@$username \
-Depth: $depth | New frames: $frames_cur | Total frames: $frames
-Command: ${command_play:0:180}" $dir_pending/$id/record.mp4 > $dir_pending/$id/result.json
+Author: @$username | Depth: $depth | New frames: $frames_cur | Total frames: $frames
+Play: ${command_play:0:180}" $dir_pending/$id/record.mp4 > $dir_pending/$id/result.json
 
         success=0
         node_id=$(cat $dir_pending/$id/result.json | jq -r .id_str) || success=$?

@@ -241,7 +241,7 @@ int main(int argc, char ** argv) {
 
     {
         std::ofstream fout(cfname);
-        fout << prefix << " " << payload << std::endl;
+        fout << payload << std::endl;
         fout.close();
     }
 
