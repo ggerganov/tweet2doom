@@ -95,6 +95,7 @@ while true ; do
         -input input-all.txt \
         -output record.mp4 \
         -nrecord 350 \
+        -nfreeze 18 \
         -render_frame \
         -render_input \
         -render_username || result=$?
