@@ -133,7 +133,7 @@ int main(int argc, char ** argv) {
 
     std::vector<char> allowed = {
         'x', 'e', 'l', 'r', 'u', 'd', 'f', 't', 'a', 's', 'p', ',', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-',
-        'L', 'R', 'U', 'D', '<', '>', 'y', 'n',
+        'L', 'R', 'U', 'D', '<', '>', 'y', 'n', ' ',
     };
 
     auto ipos = text.find(prefix);
@@ -169,6 +169,7 @@ int main(int argc, char ** argv) {
     printf("iend   = %d\n", (int) iend);
 
     auto payload = text.substr(istart, iend - istart);
+    replaceAll(payload, " ", "");
 
     printf("payload = '%s'\n", payload.c_str());
 
