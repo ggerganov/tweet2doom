@@ -47,7 +47,7 @@ while true ; do
 
     echo "parent_id=$parent_id"
 
-    $wd/parse-tweet cmd.txt "/play" input-cur.txt frames || result=$?
+    $wd/parse-tweet cmd.txt "/play" input-cur.txt frames command_play || result=$?
 
     if [ ! "$result" -eq 0 ] ; then
         echo "Failed to parse the command" > error

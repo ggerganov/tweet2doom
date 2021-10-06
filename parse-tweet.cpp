@@ -111,8 +111,8 @@ std::string expand(const std::string & token) {
 }
 
 int main(int argc, char ** argv) {
-    if (argc < 5) {
-        printf("Usage: %s input.txt prefix output.txt frames\n", argv[0]);
+    if (argc < 6) {
+        printf("Usage: %s input.txt prefix output.txt frames command\n", argv[0]);
         return 1;
     }
 
@@ -123,6 +123,7 @@ int main(int argc, char ** argv) {
     const std::string prefix = argv[2];
     const std::string ofname = argv[3];
     const std::string ffname = argv[4];
+    const std::string cfname = argv[5];
 
     replaceAll(text, "&lt;", "<");
     replaceAll(text, "&gt;", ">");
@@ -235,6 +236,12 @@ int main(int argc, char ** argv) {
     {
         std::ofstream fout(ffname);
         fout << nFrames << std::endl;
+        fout.close();
+    }
+
+    {
+        std::ofstream fout(cfname);
+        fout << prefix << " " << payload << std::endl;
         fout.close();
     }
 
