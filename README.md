@@ -1,5 +1,5 @@
-![Twitter Follow](https://img.shields.io/twitter/follow/tweet2doom?style=social)
-![Subreddit subscribers](https://img.shields.io/reddit/subreddit-subscribers/tweet2doom?style=social)
+[![Twitter Follow](https://img.shields.io/twitter/follow/tweet2doom?style=social)](https://twitter.com/tweet2doom)
+[![Subreddit subscribers](https://img.shields.io/reddit/subreddit-subscribers/tweet2doom?style=social)](https://www.reddit.com/r/tweet2doom/)
 
 ![image](https://user-images.githubusercontent.com/1991296/135762414-2c25424a-242b-42ed-85f8-9c02954b6250.png)
 
