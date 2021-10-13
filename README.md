@@ -28,6 +28,12 @@ Here are a few moves that I played to demonstrate how the bot works:
 
 The above is a textual representation of part of the "state tree" of [@tweet2doom](https://twitter.com/tweet2doom).\
 All branches of the state tree begin with the [ROOT tweet](https://t.co/YszpiKnXEE). You can reply to any node of this tree to generate a new game state / branch.
+The full state tree can be explored here: https://tweet2doom.github.io
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/1991296/137181096-db4df596-abe4-4b8a-8783-d9afe3673ee6.png"></img><br>
+Fig 1. The state tree of <a href="https://twitter.com/tweet2doom">@tweet2doom</a>
+</p>
 
 Here are a few tips for navigating the state tree on Twitter:
  - Scrolling up brings you to the previous state of the game
@@ -38,7 +44,7 @@ Here are a few tips for navigating the state tree on Twitter:
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/1991296/135765815-2f043695-cceb-4d3e-88dd-74c75cd4132c.png"></img><br>
-Fig 1. Understanding the Twitter feed
+Fig 2. Understanding the Twitter feed
 </p>
 
 ## How it works
