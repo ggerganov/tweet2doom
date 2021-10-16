@@ -66,6 +66,12 @@ The first process needs to be separated from the rest in order to process the fi
 
 All of this runs on a 2GB Linode $10/month server and it should be able to handle processing of very long tweet chains (for example, reaching several hours of gameplay). It might get problematic if suddenly, too many people start playing the game, in which case the 1 reply per 36 seconds limit would make things pretty slow. But I guess there is no way around this short of using multiple Twitter accounts.
 
+A copy of the entire state tree is maintained in a sister repository:
+
+https://github.com/tweet2doom/tweet2doom.github.io
+
+The repository is automatically updated every 15 seconds with any new nodes that might have been generated. This allows all [@tweet2doom](https://twitter.com/tweet2doom) data to be explored and processed by anyone. The repository also contains a few scripts and tools. For example, the state explorer is implemented [here](https://github.com/tweet2doom/tweet2doom.github.io/blob/master/index.html).
+
 ## Instructions
 
 These are the instructions included in the [ROOT tweet](https://t.co/YszpiKnXEE) as images.
