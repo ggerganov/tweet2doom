@@ -16,4 +16,11 @@ const mov = argv[1];
 
 const client = auth();
 
-postMedia(client, msg, mov);
+(async () => {
+    try {
+		await postMedia(client, msg, mov);
+    } catch (e) {
+		console.log(e);
+		process.exit(-1);
+    }
+})();

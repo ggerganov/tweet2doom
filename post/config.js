@@ -107,12 +107,19 @@ async function postMedia (client, message, mediaFilePath) {
     await finalizeMediaUpload(client, mediaId);
 
     console.log('Waiting for video to be processed ...');
+    var success = false;
     for (var i = 0; i < 20; ++i) {
         await delay(1000);
+		console.log('Waiting ', i, ' seconds ...');
         var status = await checkMediaStatus(client, mediaId);
         if (status.processing_info.state == 'succeeded') {
+            success = true;
             break;
         }
+    }
+
+    if (success == false) {
+        throw "Failed to upload video";
     }
 
     let statusObj = {
@@ -121,14 +128,14 @@ async function postMedia (client, message, mediaFilePath) {
     }
 
     client.post('statuses/update', statusObj, (error, tweetReply, response) => {
+        //print the text of the tweet we sent out
+        console.log(response.body);
+
         //if we get an error print it out
         if (error) {
             console.log(error);
+            throw "Failed to post";
         }
-
-        //print the text of the tweet we sent out
-        //console.log(tweetReply.text);
-        console.log(response.body);
     });
 }
 
