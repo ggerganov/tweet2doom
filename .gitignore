@@ -4,6 +4,7 @@ nohup.out
 secrets.txt
 node_modules
 parse-tweet
+parse-history
 *.mp4
 doomreplay
 *package-lock.json

@@ -19,15 +19,22 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 // media upload methods
 
-const initMediaUpload = (client, pathToFile) => {
-    const mediaType = "video/mp4";
+const initMediaUpload = (client, pathToFile, mediaType) => {
+    var mediaTypeStr     = "video/mp4";
+    var mediaCategoryStr = "tweet_video";
+
+    if (mediaType == "subtitles") {
+        mediaTypeStr     = "text/plain";
+        mediaCategoryStr = "subtitles";
+    }
+
     const mediaSize = fs.statSync(pathToFile).size
     return new Promise((resolve, reject) => {
         client.post("media/upload", {
             command: "INIT",
-            media_category: "tweet_video",
+            media_category: mediaCategoryStr,
             total_bytes: mediaSize,
-            media_type: mediaType
+            media_type: mediaTypeStr
         }, (error, data, response) => {
             if (error) {
                 console.log(error)
@@ -70,9 +77,8 @@ const checkMediaStatus = (client, mediaId) => {
 
 const finalizeMediaUpload = (client, mediaId) => {
     return new Promise((resolve, reject) =>  {
-        client.post('media/upload', {
+        client.post("media/upload", {
             command: "FINALIZE",
-            media_category: "tweet_video",
             media_id: mediaId
         }, (error, data, response) => {
             if (error) {
@@ -85,14 +91,14 @@ const finalizeMediaUpload = (client, mediaId) => {
     })
 }
 
-async function postMedia (client, message, mediaFilePath) {
+async function postMedia (client, id_str, message, mediaFilePath, mediaType) {
     const mediaData = fs.readFileSync(mediaFilePath);
 
     const chunk = 4*1024*1024;
     var n = Math.floor(mediaData.length/chunk);
     if (n*chunk < mediaData.length) ++n;
 
-    var mediaId = await initMediaUpload(client, mediaFilePath);
+    var mediaId = await initMediaUpload(client, mediaFilePath, mediaType);
     console.log('media_id     = ' + mediaId);
     console.log('num segments = ' + n);
 
@@ -106,37 +112,49 @@ async function postMedia (client, message, mediaFilePath) {
 
     await finalizeMediaUpload(client, mediaId);
 
-    console.log('Waiting for video to be processed ...');
-    var success = false;
-    for (var i = 0; i < 20; ++i) {
-        await delay(1000);
-		console.log('Waiting ', i, ' seconds ...');
-        var status = await checkMediaStatus(client, mediaId);
-        if (status.processing_info.state == 'succeeded') {
-            success = true;
-            break;
+    if (mediaType != 'subtitles') {
+        console.log('Waiting for video to be processed ...');
+        var success = false;
+        for (var i = 0; i < 20; ++i) {
+            await delay(1000);
+            console.log('Waiting ', i, ' seconds ...');
+            var status = await checkMediaStatus(client, mediaId);
+            if (status.processing_info.state == 'succeeded') {
+                success = true;
+                break;
+            }
         }
-    }
 
-    if (success == false) {
-        throw "Failed to upload video";
-    }
-
-    let statusObj = {
-        status: message,
-        media_ids: mediaId
-    }
-
-    client.post('statuses/update', statusObj, (error, tweetReply, response) => {
-        //print the text of the tweet we sent out
-        console.log(response.body);
-
-        //if we get an error print it out
-        if (error) {
-            console.log(error);
-            throw "Failed to post";
+        if (success == false) {
+            throw "Failed to upload video";
         }
-    });
+
+        let statusObj = {
+            status: message,
+            media_ids: mediaId
+        }
+
+        if (id_str != '0') {
+            statusObj = {
+                status: message,
+                in_reply_to_status_id: id_str,
+                media_ids: mediaId
+            }
+        }
+
+        await client.post('statuses/update', statusObj, (error, tweetReply, response) => {
+            //print the text of the tweet we sent out
+            console.log(response.body);
+
+            //if we get an error print it out
+            if (error) {
+                console.log(error);
+                throw "Failed to post";
+            }
+        });
+    }
+
+    return mediaId;
 }
 
 module.exports = { auth, postMedia };
