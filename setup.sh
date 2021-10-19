@@ -18,6 +18,7 @@ npm install
 
 cd $wd
 g++ -std=c++11 -O3 parse-tweet.cpp -o parse-tweet
+g++ -std=c++11 -O3 parse-history.cpp -o parse-history
 
 cd $wd
 ln -sfnv ../doomreplay/doomgeneric ./doomreplay

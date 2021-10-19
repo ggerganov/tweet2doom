@@ -9,6 +9,7 @@ dir_processed="./processed"
 dir_failed="./failed"
 dir_invalid="./invalid"
 dir_reply="./reply"
+dir_post="./post"
 dir_nodes="./nodes"
 dir_tmp="./tmp"
 
@@ -49,12 +50,34 @@ while true ; do
         frames=$(cat $dir_pending/$id/frames)
         frames_cur=$(cat $dir_pending/$id/frames_cur)
         command_play=$(cat $dir_pending/$id/command_play)
-        node $dir_reply/reply.js "$id" "@$username \
+
+        $wd/parse-history $dir_pending/$id/input-all.txt 350 35 $dir_pending/$id/command_parsed
+
+        for k in `seq 0 9` ; do
+            idx=$k
+
+            ts_m=$(( 1000*($idx    ) ))
+            te_m=$(( 1000*($idx + 1) ))
+
+            ts_s=$(printf "%02d" $(( $ts_m/1000 )) )
+            ts_m=$(printf "%03d" $(( $ts_m - ($ts_m/1000)*1000 )) )
+            te_s=$(printf "%02d" $(( $te_m/1000 )) )
+            te_m=$(printf "%03d" $(( $te_m - ($te_m/1000)*1000 )) )
+
+            cmd=$(cat $dir_pending/$id/command_parsed | head -n $(($k + 1)) | tail -n 1)
+
+            echo "$(( $idx + 1 ))" >> $dir_pending/$id/subs.srt
+            echo "00:00:$ts_s,$ts_m --> 00:00:$te_s,$te_m" >> $dir_pending/$id/subs.srt
+            echo "$cmd" >> $dir_pending/$id/subs.srt
+            echo "" >> $dir_pending/$id/subs.srt
+        done
+
+        node $dir_post/post.js "$id" "@$username \
 Author: @$username | Depth: $depth | New frames: $frames_cur | Total frames: $frames
-Play: ${command_play:0:180}" $dir_pending/$id/record.mp4 > $dir_pending/$id/result.json
+Play: ${command_play:0:180}" $dir_pending/$id/record.mp4 $dir_pending/$id/subs.srt > $dir_pending/$id/result.json
 
         success=0
-        node_id=$(cat $dir_pending/$id/result.json | jq -r .id_str) || success=$?
+        node_id=$(cat $dir_pending/$id/result.json | grep created_at | jq -r .id_str) || success=$?
 
         if [ "$success" -eq 0 ] ; then
             echo -n "$node_id" > $dir_pending/$id/child_id
