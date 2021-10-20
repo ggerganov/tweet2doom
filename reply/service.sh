@@ -51,12 +51,14 @@ Play: ${command_play:0:180}" $dir_pending/$id/record.mp4 > $dir_pending/$id/resu
         node_id=$(cat $dir_pending/$id/result.json | jq -r .id_str) || success=$?
 
         if [ "$success" -eq 0 ] ; then
+            echo "$node_id" > $dir_pending/$id/child_id
             t_last="$t_cur"
 
             mkdir $dir_tmp/node_new
             cp -v $dir_pending/$id/input-all.txt $dir_tmp/node_new/history.txt
             cp -v $dir_pending/$id/depth $dir_tmp/node_new/depth
             cp -v $dir_pending/$id/frames $dir_tmp/node_new/frames
+            echo "$id" > $dir_tmp/node_new/parent_id
             mv -v $dir_tmp/node_new $dir_nodes/$node_id
 
             mv -v $dir_pending/$id $dir_processed/$id
