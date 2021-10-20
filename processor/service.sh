@@ -36,6 +36,7 @@ while true ; do
 
     if [ ! "$result" -eq 0 ] ; then
         echo "Missing '.data.text' field in the request" > error
+        cat error
         cd $wd
         #mv -v $dir_processing/$id $dir_invalid/
         mv -v $dir_processing/$id $dir_pending/
@@ -45,6 +46,7 @@ while true ; do
     parent_id=$(cat parent_id)
     if [ ! -d $wd/$dir_nodes/$parent_id ] ; then
         echo "Unknown parent_id" > error
+        cat error
         cd $wd
         #mv -v $dir_processing/$id $dir_invalid/
         mv -v $dir_processing/$id $dir_pending/
@@ -76,6 +78,7 @@ while true ; do
             echo "Empty command" >> error
         fi
 
+        cat error
         cd $wd
         #mv -v $dir_processing/$id $dir_invalid/
         mv -v $dir_processing/$id $dir_pending/
@@ -108,6 +111,7 @@ while true ; do
 
     if [ ! "$result" -eq 0 ] ; then
         echo "Failed to generate the video" > error
+        cat error
         cd $wd
         #mv -v $dir_processing/$id $dir_invalid/
         mv -v $dir_processing/$id $dir_pending/
