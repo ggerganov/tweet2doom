@@ -17,6 +17,12 @@ t_last=0
 while true ; do
     sleep 1
 
+    if [ -f stop-reply.flag ] ; then
+        echo "Stopping reply service"
+        rm stop-reply.flag
+        exit
+    fi
+
     #id=$(ls $dir_pending | shuf -n 1)
     id=$(ls $dir_pending | head -n 1)
 

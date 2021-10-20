@@ -14,6 +14,12 @@ dir_doomreplay="$wd/doomreplay"
 while true ; do
     sleep 3
 
+    if [ -f stop-processor.flag ] ; then
+        echo "Stopping processor service"
+        rm stop-processor.flag
+        exit
+    fi
+
     id=$(./request-one.sh | grep __REQUEST__ | awk '{print $2}')
 
     if [ -z $id ] ; then
