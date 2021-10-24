@@ -10,8 +10,8 @@ const streamURL = 'https://api.twitter.com/2/tweets/search/stream';
 
 const dirTmp = './tmp';
 const dirRequests = './requests';
-const idBot = 'tweet2doom';
-const rootConversationId = '1444355917160534024';
+const idBot = 'devtesting_gg_0';
+const rootConversationId = '1450894394576539660';
 
 dotenv.config()
 const token = process.env.BEARER_TOKEN;
@@ -23,8 +23,8 @@ if (!fs.existsSync(dirRequests)){
 
 const rules = [
     {
-        'value': '("/play" OR "/replay") to:' + idBot + ' -from:' + idBot + ' -is:quote -is:retweet conversation_id:' + rootConversationId,
-        'tag': 'tweet2doom'
+        'value': '("/play" OR "/replay") to:' + idBot + ' -is:quote -is:retweet conversation_id:' + rootConversationId,
+        'tag': 'tweet2doom testing'
     },
 ];
 
@@ -233,7 +233,7 @@ function streamConnect(retryAttempt) {
         currentRules = await getAllRules();
 
         // change this to "true" to recreate the filter rules
-        if (false) {
+        if (true) {
             console.log('Installing new filters ...');
             // Delete all rules. Comment the line below if you want to keep your existing rules.
             await deleteAllRules(currentRules);

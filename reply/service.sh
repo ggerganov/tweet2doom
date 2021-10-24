@@ -30,9 +30,9 @@ while true ; do
         username=$(cat $dir_pending/$id/username)
 
         if [ -f $dir_pending/$id/error ] ; then
-            msg=$(cat $dir_pending/$id/error)
-            node $dir_reply/reply.js "$id" "@$username \
-            ERROR: $msg" > $dir_pending/$id/result.json
+            #msg=$(cat $dir_pending/$id/error)
+            #node $dir_reply/reply.js "$id" "@$username \
+            #ERROR: $msg" > $dir_pending/$id/result.json
 
             mv -v $dir_pending/$id $dir_invalid/$id
 
