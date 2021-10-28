@@ -51,7 +51,7 @@ while true ; do
         frames_cur=$(cat $dir_pending/$id/frames_cur)
         command_play=$(cat $dir_pending/$id/command_play)
 
-        $wd/parse-history $dir_pending/$id/input-all.txt 350 35 $dir_pending/$id/command_parsed
+        $wd/parse-history $dir_pending/$id/input-all.txt 350 35 $dir_pending/$id/command_parsed 0 1
 
         for k in `seq 0 9` ; do
             idx=$k
