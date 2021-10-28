@@ -79,17 +79,19 @@ std::string compress(const std::string & token) {
 }
 
 int main(int argc, char ** argv) {
-    if (argc < 6) {
-        printf("Usage: %s history.txt nframes nperseg output.txt maxlen\n", argv[0]);
+    if (argc < 7) {
+        printf("Usage: %s history.txt nframes nperseg output.txt maxlen escape\n", argv[0]);
         return 1;
     }
 
     int nFrames = atoi(argv[2]);
     int nPerSeg = atoi(argv[3]);
     int maxlen = atoi(argv[5]);
+    int escape = atoi(argv[6]);
+
     if (maxlen <= 0) maxlen = 100000;
 
-    printf("Parsing last %d frames using %d frames per segment. maxlen = %d\n", nFrames, nPerSeg, maxlen);
+    printf("Parsing last %d frames using %d frames per segment. maxlen = %d, escape = %d\n", nFrames, nPerSeg, maxlen, escape);
 
     auto history = readFile(argv[1]);
     history = removeUsernames(history);
@@ -133,8 +135,10 @@ int main(int argc, char ** argv) {
         if (result.size() >= maxlen) break;
     }
 
-    replaceAll(result, "<", "&lt;");
-    replaceAll(result, ">", "&gt;");
+    if (escape != 0) {
+        replaceAll(result, "<", "&lt;");
+        replaceAll(result, ">", "&gt;");
+    }
 
     auto fout = std::ofstream(argv[4]);
     fout << result;
