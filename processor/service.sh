@@ -99,12 +99,15 @@ while true ; do
     cat input-cur.txt >> input-all.txt
 
     ln -sf $dir_doomreplay/.savegame .savegame
-    $dir_doomreplay/doomgeneric \
+
+    # generate video
+    SDL_AUDIODRIVER=disk $dir_doomreplay/doomgeneric \
         -iwad $dir_doomreplay/doom1.wad \
         -input input-all.txt \
         -output record.mp4 \
         -nrecord 350 \
         -nfreeze 18 \
+        -nomusic \
         -render_frame \
         -render_input \
         -render_username || result=$?
@@ -117,6 +120,40 @@ while true ; do
         mv -v $dir_processing/$id $dir_pending/
         continue
     fi
+
+    # generate audio
+    SDL_AUDIODRIVER=disk $dir_doomreplay/doomgeneric \
+        -iwad $dir_doomreplay/doom1.wad \
+        -input input-all.txt \
+        -output record.mp4 \
+        -nrecord 350 \
+        -nfreeze 18 \
+        -nomusic \
+        -render_frame \
+        -render_input \
+        -render_username \
+        -disable_video | tee doomreplay.log || result=$?
+
+    if [ ! "$result" -eq 0 ] ; then
+        echo "Failed to generate the audio" > error
+        cat error
+        cd $wd
+        #mv -v $dir_processing/$id $dir_invalid/
+        mv -v $dir_processing/$id $dir_pending/
+        continue
+    fi
+
+    # mix video + audio
+    sound_offset_ms=$(cat doomreplay.log | grep "DOOMREPLAY SOUND START TIMESTAMP" | awk '{print $6}')
+    sound_offset_bytes=$(echo "${sound_offset_ms}*4*44.100" | bc | awk '{printf("%d\n",$1)}')
+    sound_offset_bytes=$(( ($sound_offset_bytes/4)*4 ))
+    dd if="sdlaudio.raw" of="sdlaudio2.raw" bs=$sound_offset_bytes skip=1
+    mv sdlaudio2.raw sdlaudio.raw
+    ffmpeg -f s16le -channels 2 -sample_rate 44100 -i sdlaudio.raw audio.mp4
+    ffmpeg -i record.mp4 -i audio.mp4 -c copy -map 0:v -map 1:a record_new.mp4
+    mv record_new.mp4 record.mp4
+    rm audio.mp4
+    rm sdlaudio.raw
 
     cd $wd
 
